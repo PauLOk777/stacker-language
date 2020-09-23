@@ -1,7 +1,14 @@
 package com.paulok777.expander;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 public class Handler {
 
+    @SuppressWarnings("removal")
+    private static ScriptEngineManager manager = new ScriptEngineManager();
+    private static ScriptEngine engine = manager.getEngineByName("js");
     private static Stack<Double> stack = new Stack<>();
     private final static String NUM_REGEX = "[-0-9]+";
     private final static String OPERATORS_REGEX = "[-+*%/]";
@@ -15,12 +22,10 @@ public class Handler {
             double first = stack.pop();
             double second = stack.pop();
 
-            switch (intermediateLine) {
-                case "+" -> stack.push(second + first);
-                case "-" -> stack.push(second - first);
-                case "*" -> stack.push(second * first);
-                case "/" -> stack.push(second / first);
-                case "%" -> stack.push(second % first);
+            try {
+                stack.push((double) engine.eval(second + intermediateLine + first));
+            } catch (ScriptException e) {
+               e.printStackTrace();
             }
         }
     }
