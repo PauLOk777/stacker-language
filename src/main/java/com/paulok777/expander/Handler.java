@@ -9,7 +9,7 @@ public class Handler {
 //    private static ScriptEngineManager manager = new ScriptEngineManager();
 //    private static ScriptEngine engine = manager.getEngineByName("js");
     private static Stack<Double> stack = new Stack<>();
-    private final static String NUM_REGEX = "[-0-9]+";
+    private final static String NUM_REGEX = "(-[0-9]){2,}|([0-9])+";
     private final static String OPERATORS_REGEX = "[-+*%/]";
 
     public static void handle(String intermediateLine) {
@@ -36,6 +36,9 @@ public class Handler {
                         throw new ArithmeticException("Division by 0");
                     }
                     stack.push(second / first);
+                    break;
+                case "%":
+                    stack.push(second % first);
                     break;
             }
 //            try {

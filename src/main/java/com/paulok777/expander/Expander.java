@@ -1,6 +1,7 @@
 package com.paulok777.expander;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Expander {
 
@@ -11,13 +12,15 @@ public class Expander {
         for (int i = 0; i < intermediateCode.size() - 1; i++) {
             String line = intermediateCode.get(i);
             if (line.startsWith(HANDLE_FUNCTION_NAME)) {
-                Handler.handle(line.substring(HANDLE_FUNCTION_NAME.length() + 1, line.length() - 1));
+                try {
+                    Handler.handle(line.substring(HANDLE_FUNCTION_NAME.length() + 1, line.length() - 1));
+                } catch (NoSuchElementException e) {
+                    return "No such elements in stack.";
+                }
             }
-        }
-
-        String lastLine = intermediateCode.get(intermediateCode.size() - 1);
-        if (lastLine.startsWith(TERMINATE_FUNCTION_NAME)) {
-            return Handler.returnResult();
+            if (line.startsWith(TERMINATE_FUNCTION_NAME)) {
+                return Handler.returnResult();
+            }
         }
 
         return null;
