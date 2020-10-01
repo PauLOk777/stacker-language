@@ -1,14 +1,13 @@
 package com.paulok777.expander;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+//import javax.script.ScriptEngine;
+//import javax.script.ScriptEngineManager;
+//import javax.script.ScriptException;
 
 public class Handler {
 
-    @SuppressWarnings("removal")
-    private static ScriptEngineManager manager = new ScriptEngineManager();
-    private static ScriptEngine engine = manager.getEngineByName("js");
+//    private static ScriptEngineManager manager = new ScriptEngineManager();
+//    private static ScriptEngine engine = manager.getEngineByName("js");
     private static Stack<Double> stack = new Stack<>();
     private final static String NUM_REGEX = "[-0-9]+";
     private final static String OPERATORS_REGEX = "[-+*%/]";
@@ -22,11 +21,28 @@ public class Handler {
             double first = stack.pop();
             double second = stack.pop();
 
-            try {
-                stack.push((double) engine.eval(second + intermediateLine + first));
-            } catch (ScriptException e) {
-               e.printStackTrace();
+            switch (intermediateLine) {
+                case "+":
+                    stack.push(second + first);
+                    break;
+                case "-":
+                    stack.push(second - first);
+                    break;
+                case "*":
+                    stack.push(second * first);
+                    break;
+                case "/":
+                    if (first == 0) {
+                        throw new ArithmeticException("Division by 0");
+                    }
+                    stack.push(second / first);
+                    break;
             }
+//            try {
+//                stack.push((double) engine.eval(second + intermediateLine + first));
+//            } catch (ScriptException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 

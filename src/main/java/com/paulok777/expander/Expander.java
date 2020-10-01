@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Expander {
 
-    private final static String HANDLE_FUNCTION_NAME = "handle";
-    private final static String TERMINATE_FUNCTION_NAME = "terminate";
+    public static final String HANDLE_FUNCTION_NAME = "handle";
+    public static final String TERMINATE_FUNCTION_NAME = "terminate";
 
     public static Object expand(List<String> intermediateCode) {
         for (int i = 0; i < intermediateCode.size() - 1; i++) {
